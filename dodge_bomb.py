@@ -28,6 +28,7 @@ def main():
     bm_img.set_colorkey((0, 0, 0))
     bm_rct = bm_img.get_rect()
     bm_rct.center = random.randint(0,WIDTH),random.randint(0,HEIGHT)
+    vx, vy = 5, 5
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -41,15 +42,19 @@ def main():
                 sum_mv[0] += v[0]
                 sum_mv[1] += v[1]
 
-        bm_mv = [5, 5]
+        bm_mv = [vx, vy]
 
         kk_rct.move_ip(sum_mv)
         if hante(kk_rct) != (True, True):
             kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
         screen.blit(kk_img, kk_rct)
         bm_rct.move_ip(bm_mv)
-        if hante(bm_rct) != (True, True):
-            bm_rct.move_ip(-bm_mv[0],-bm_mv[1])
+        yoko, tate = hante(bm_rct)
+        if not yoko:
+            vx *= -1
+        if not tate:
+            vy *= -1
+        
         screen.blit(bm_img,bm_rct)
         pg.display.update()
         tmr += 1

@@ -92,7 +92,7 @@ def hante(rct: pg.Rect) -> tuple[bool, bool]:
         yoko = False
     if rct.top < 0 or HEIGHT < rct.bottom:
         tate = False
-    return yoko,tate
+    return yoko, tate
 
 
 #課題1

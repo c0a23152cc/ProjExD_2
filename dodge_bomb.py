@@ -118,7 +118,7 @@ def Bomb_DX():
         bm_img = pg.Surface((20*r, 20*r))
         pg.draw.circle(bm_img, (255, 0, 0), (10*r, 10*r), 10*r)  # ボムの大きさをrごとに指定する
         big.append(bm_img)  # リストに追加する
-    return accs,big  # リスト2つをタプルにして返す
+    return accs, big  # リスト2つをタプルにして返す
 
 
 #課題3
@@ -127,7 +127,7 @@ def Gameover(screen):
     pg.draw.rect(bla_img, (0, 0, 0), (0, 0, WIDTH, HEIGHT))
     bla_img.set_alpha(170)
     bla_rct = bla_img.get_rect()
-    bla_rct.center = WIDTH/2,HEIGHT/2
+    bla_rct.center = WIDTH/2, HEIGHT/2
     fonto = pg.font.Font(None, 80)
     txt = fonto.render("GameOver",
                        True, (255, 255, 255))

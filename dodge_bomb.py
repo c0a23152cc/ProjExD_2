@@ -44,13 +44,30 @@ def main():
         bm_mv = [5, 5]
 
         kk_rct.move_ip(sum_mv)
+        if hante(kk_rct) != (True, True):
+            kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
         screen.blit(kk_img, kk_rct)
         bm_rct.move_ip(bm_mv)
+        if hante(bm_rct) != (True, True):
+            bm_rct.move_ip(-bm_mv[0],-bm_mv[1])
         screen.blit(bm_img,bm_rct)
         pg.display.update()
         tmr += 1
         clock.tick(50)
 
+
+def hante(rct: pg.Rect) -> tuple[bool, bool]:
+    """
+    引数: こうかとんのレクト or ボムのレクと
+    戻り値: 真理値タプル（横方向、縦方向）
+    画面内ならTrue、画面外ならFalse
+    """
+    tate, yoko = True, True
+    if rct.left < 0 or WIDTH < rct.right:
+        yoko = False
+    if rct.top < 0 or HEIGHT < rct.bottom:
+        tate = False
+    return yoko,tate
 
 if __name__ == "__main__":
     pg.init()

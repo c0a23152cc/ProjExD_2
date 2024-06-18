@@ -8,10 +8,10 @@ import time
 WIDTH, HEIGHT = 1600, 900
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 DICT_MV={ #移動量指定
-        pg.K_UP: (0,-5), 
-        pg.K_DOWN: (0,5), 
-        pg.K_LEFT: (-5,0), 
-        pg.K_RIGHT: (5,0),
+        pg.K_UP: (0, -5), 
+        pg.K_DOWN: (0, 5), 
+        pg.K_LEFT: (-5, 0), 
+        pg.K_RIGHT: (5, 0),
         }
         
 
@@ -47,9 +47,16 @@ def main():
             if key_lst[k]:
                 sum_mv[0] += v[0]
                 sum_mv[1] += v[1]
-        
-        kkn_img = pg.transform.rotozoom(kk_img,-0.5,1)
 
+        #課題1
+        if sum_mv != [0, 0]:
+            kk_img = Muki()[tuple(sum_mv)]  # 辞書から値を取り出して向く方向決める
+            if sum_mv == [-5, -5] or sum_mv == [-5, 0] or sum_mv == [-5, 5]:  # 左行きたいとき以外左右反転させる
+                pass
+            else:
+                kk_img = pg.transform.flip(kk_img, True, False)
+
+        #課題2
         bm_accs, bm_imgs = Bomb_DX()
         avx = vx*bm_accs[min(tmr//500, 9)]  # 速度を加速度ごとに時間経過で変える
         avy = vy*bm_accs[min(tmr//500, 9)]
@@ -57,11 +64,10 @@ def main():
         bm_img = bm_imgs[min(tmr//500, 9)]  # 大きさを時間経過で変える
         bm_img.set_colorkey((0, 0, 0))
         
-
         kk_rct.move_ip(sum_mv)
         if hante(kk_rct) != (True, True):
             kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
-        screen.blit(kkn_img, kk_rct)
+        screen.blit(kk_img, kk_rct)
         bm_rct.move_ip(bm_mv)
         yoko, tate = hante(bm_rct)
         if not yoko:
@@ -87,6 +93,22 @@ def hante(rct: pg.Rect) -> tuple[bool, bool]:
     if rct.top < 0 or HEIGHT < rct.bottom:
         tate = False
     return yoko,tate
+
+
+#課題1
+def Muki():
+    DICT_MUKI={  # 向きの指定の辞書作成
+    (0, -5): pg.transform.rotozoom(pg.image.load("fig/3.png"), 270, 2.0),
+    (5, -5): pg.transform.rotozoom(pg.image.load("fig/3.png"), 315, 2.0),
+    (5, 0): pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 2.0),
+    (5, 5): pg.transform.rotozoom(pg.image.load("fig/3.png"), 45, 2.0),
+    (0, 5): pg.transform.rotozoom(pg.image.load("fig/3.png"), 90, 2.0),
+    (-5, 5): pg.transform.rotozoom(pg.image.load("fig/3.png"), 45, 2.0),
+    (-5, 0): pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 2.0),
+    (-5, -5): pg.transform.rotozoom(pg.image.load("fig/3.png"), 315, 2.0),
+    }
+    return DICT_MUKI
+
 
 #課題2
 def Bomb_DX():
@@ -116,6 +138,7 @@ def Gameover(screen):
     screen.blit(kkf_img, [WIDTH/2+300, HEIGHT/2-50])  # こうかとん表示
     pg.display.update()
     time.sleep(5)  # 5秒待機
+
 
 if __name__ == "__main__":
     pg.init()

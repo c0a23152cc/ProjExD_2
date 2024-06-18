@@ -51,10 +51,10 @@ def main():
         kkn_img = pg.transform.rotozoom(kk_img,-0.5,1)
 
         bm_accs, bm_imgs = Bomb_DX()
-        avx = vx*bm_accs[min(tmr//500, 9)]
+        avx = vx*bm_accs[min(tmr//500, 9)]  # 速度を加速度ごとに時間経過で変える
         avy = vy*bm_accs[min(tmr//500, 9)]
         bm_mv = [avx, avy]
-        bm_img = bm_imgs[min(tmr//500, 9)]
+        bm_img = bm_imgs[min(tmr//500, 9)]  # 大きさを時間経過で変える
         bm_img.set_colorkey((0, 0, 0))
         
 
@@ -88,15 +88,15 @@ def hante(rct: pg.Rect) -> tuple[bool, bool]:
         tate = False
     return yoko,tate
 
-
+#課題2
 def Bomb_DX():
     accs = [a for a in range(1, 11)]
-    big = []
-    for r in range(1, 11):
+    big = []  #空のリストを用意
+    for r in range(1, 11):  # 10回まわす
         bm_img = pg.Surface((20*r, 20*r))
-        pg.draw.circle(bm_img, (255, 0, 0), (10*r, 10*r), 10*r)
-        big.append(bm_img)
-    return accs,big
+        pg.draw.circle(bm_img, (255, 0, 0), (10*r, 10*r), 10*r)  # ボムの大きさをrごとに指定する
+        big.append(bm_img)  # リストに追加する
+    return accs,big  # リスト2つをタプルにして返す
 
 
 #課題3

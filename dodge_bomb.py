@@ -50,8 +50,12 @@ def main():
         
         kkn_img = pg.transform.rotozoom(kk_img,-0.5,1)
 
-       
-        bm_mv = [vx, vy]
+        bm_accs, bm_imgs = Bomb_DX()
+        avx = vx*bm_accs[min(tmr//500, 9)]
+        avy = vy*bm_accs[min(tmr//500, 9)]
+        bm_mv = [avx, avy]
+        bm_img = bm_imgs[min(tmr//500, 9)]
+        bm_img.set_colorkey((0, 0, 0))
         
 
         kk_rct.move_ip(sum_mv)
@@ -83,6 +87,17 @@ def hante(rct: pg.Rect) -> tuple[bool, bool]:
     if rct.top < 0 or HEIGHT < rct.bottom:
         tate = False
     return yoko,tate
+
+
+def Bomb_DX():
+    accs = [a for a in range(1, 11)]
+    big = []
+    for r in range(1, 11):
+        bm_img = pg.Surface((20*r, 20*r))
+        pg.draw.circle(bm_img, (255, 0, 0), (10*r, 10*r), 10*r)
+        big.append(bm_img)
+    return accs,big
+
 
 #課題3
 def Gameover(screen):
